@@ -35,27 +35,27 @@ if __name__ == '__main__':
 
         # rename Verso files to proper format
         lockup_iterator = 1
+        poweron_iterator = 1
+        poweroff_iterator = 1
         for verso_file in os.listdir(verso_path):
             if 'blaster' in verso_file:
                 os.rename(verso_path + verso_file, verso_path + 'blast' + verso_file[verso_file.index('r') + 1:])
-            if 'hum' in verso_file:
+            elif 'hum' in verso_file:
                 os.rename(verso_path + verso_file, verso_path + 'hum.wav')
-            if 'lockup' in verso_file:
+            elif 'lockup' in verso_file:
                 os.rename(verso_path + verso_file, verso_path + 'lockup' + str(lockup_iterator) + '.wav')
                 lockup_iterator += 1
-            if 'hswing' in verso_file:
+            elif 'hswing' in verso_file:
                 os.rename(verso_path + verso_file, verso_path + 'swingh' + verso_file[verso_file.index('g') + 1:])
-            if 'lswing' in verso_file:
+            elif 'lswing' in verso_file:
                 os.rename(verso_path + verso_file, verso_path + 'swingl' + verso_file[verso_file.index('g') + 1:])
-            if 'stab' in verso_file:
-                pass
-            if 'poweron' in verso_file:
-                pass
-            if 'poweroff' in verso_file:
-                pass
-            if 'pwroff' in verso_file:
-                pass
-            if 'swing' in verso_file:
-                pass
-
-
+            elif 'stab' in verso_file:
+                os.remove(verso_path + verso_file)
+            elif 'poweron' in verso_file or 'pwron' in verso_file:
+                os.rename(verso_path + verso_file, verso_path + 'on' + str(poweron_iterator) + verso_file[verso_file.index('.'):])
+                poweron_iterator += 1
+            elif 'poweroff' in verso_file or 'pwroff' in verso_file:
+                os.rename(verso_path + verso_file, verso_path + 'off' + str(poweroff_iterator) + verso_file[verso_file.index('.'):])
+                poweroff_iterator += 1
+            elif 'swing' in verso_file:
+                os.rename(verso_path + verso_file, verso_path + 'aswing' + verso_file[verso_file.index('g') + 1:])
