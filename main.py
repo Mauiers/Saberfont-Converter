@@ -1,5 +1,17 @@
 import os
+import re
 import shutil
+
+
+# extract numbers from string
+def extract_numbers(string):
+    # Find one or more digits at the end of the string
+    match = re.search(r'\d+', string)
+    if match:
+        numbers = match.group()
+        return int(numbers)
+    else:
+        return 1
 
 
 def make_verso():
@@ -59,38 +71,32 @@ def make_proffie():
     prof_subfolders = ['blst', 'clsh', 'in', 'out', 'stab', 'swingh', 'swingl', 'swng']
 
     for subfolder in prof_subfolders:
-        if subfolder not in os.path.listdir(proffie_path):
-            os.mkdir(subfolder)
-
-    lockup_iterator = 1
-    poweron_iterator = 1
-    poweroff_iterator = 1
+        path_subfolder = proffie_path + '/' + subfolder
+        if not os.path.isdir(path_subfolder):
+            os.mkdir(path_subfolder)
 
     # move files to subfolders
-    for old_cfx_file in proffie_path:
-        if 'blaster' in old_cfx_file:
-            os.move(proffie_path + old_cfx_file, proffie_path + '/blst/' + old_cfx_file[old_cfx_file.index('t') + 1:])
-        # elif 'hum' in old_cfx_file:
-        #     os.rename(proffie_path + old_cfx_file, proffie_path + 'hum.wav')
-        # elif 'lockup' in old_cfx_file:
-        #     os.rename(proffie_path + old_cfx_file, proffie_path + 'lockup' + str(lockup_iterator) + '.wav')
-        #     lockup_iterator += 1
-        # elif 'hswing' in old_cfx_file:
-        #     os.rename(proffie_path + old_cfx_file, proffie_path + 'swingh' + proffie_file[proffie_file.index('g') + 1:])
-        # elif 'lswing' in old_cfx_file:
-        #     os.rename(proffie_path + old_cfx_file, proffie_path + 'swingl' + proffie_file[proffie_file.index('g') + 1:])
-        # elif 'stab' in old_cfx_file:
-        #     os.remove(proffie_path + old_cfx_file)
-        # elif 'poweron' in old_cfx_file or 'pwron' in old_cfx_file:
-        #     os.rename(proffie_path + old_cfx_file,
-        #               proffie_path + 'on' + str(poweron_iterator) + proffie_file[proffie_file.index('.'):])
-        #     poweron_iterator += 1
-        # elif 'poweroff' in old_cfx_file or 'pwroff' in old_cfx_file:
-        #     os.rename(proffie_path + old_cfx_file,
-        #               proffie_path + 'off' + str(poweroff_iterator) + proffie_file[proffie_file.index('.'):])
-        #     poweroff_iterator += 1
-        # elif 'swing' in proffie_file:
-        #     os.rename(proffie_path + proffie_file, proffie_path + 'aswing' + proffie_file[proffie_file.index('g') + 1:])
+    for old_cfx_file in os.listdir(proffie_path):
+        if 'blaster' in old_cfx_file and old_cfx_file != 'blst':
+            shutil.move(f'{proffie_path}{old_cfx_file}', f'{proffie_path}/blst/blst{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
+        elif 'clash' in old_cfx_file and old_cfx_file != 'clsh':
+            shutil.move(f'{proffie_path}{old_cfx_file}', f'{proffie_path}/clsh/clsh{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
+        elif 'poweroff' in old_cfx_file and old_cfx_file != 'in':
+            shutil.move(f'{proffie_path}{old_cfx_file}', f'{proffie_path}/in/in{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
+        elif 'poweron' in old_cfx_file and old_cfx_file != 'out':
+            shutil.move(f'{proffie_path}{old_cfx_file}', f'{proffie_path}/out/out{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
+        elif 'stab' in old_cfx_file and old_cfx_file != 'stab':
+            shutil.move(f'{proffie_path}{old_cfx_file}', f'{proffie_path}/stab/stab{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
+        elif 'hswing' in old_cfx_file and old_cfx_file != 'swingh':
+            shutil.move(f'{proffie_path}{old_cfx_file}', f'{proffie_path}/swingh/swingh{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
+        elif 'lswing' in old_cfx_file and old_cfx_file != 'swingl':
+            shutil.move(f'{proffie_path}{old_cfx_file}', f'{proffie_path}/swingl/swingl{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
+        elif 'swing' in old_cfx_file and old_cfx_file != 'swng' and old_cfx_file != 'swingh' and old_cfx_file != 'swingl':
+            shutil.move(f'{proffie_path}{old_cfx_file}', f'{proffie_path}/swng/swng{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
+        # rename boots to match Proffie naming scheme
+        elif 'boot' in old_cfx_file:
+            os.rename(f'{proffie_path}{old_cfx_file}', f'{proffie_path}boot{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
+
 
 if __name__ == '__main__':
     paths = []
@@ -113,6 +119,5 @@ if __name__ == '__main__':
         cfx_path = path + '/CFX/'
         cfx_files = os.listdir(cfx_path)
 
-       # make_verso()
-
+        make_verso()
         make_proffie()
