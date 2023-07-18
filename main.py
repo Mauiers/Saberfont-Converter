@@ -152,16 +152,8 @@ def reformat(choice):
             if cfx_file not in os.listdir(xeno_path):
                 shutil.copy(cfx_path + cfx_file, xeno_path)
 
-        # copy drags as melts
-        drags_melts = input(f'\nWould you like to copy drags as both drags and melts?\n'
-                            f'\n'
-                            f'1. Yes\n'
-                            f'2. No\n').strip()
-
-        if drags_melts == 1:
-            drags_melts = True
-        else:
-            drags_melts = False
+        max_power_on = 0
+        max_pwr_off = 0
 
         for xeno_file in os.listdir(xeno_path):
             solo = '' if can_convert_to_int(xeno_file[xeno_file.index(".") - 1:xeno_file.index(".")]) else '1'
@@ -169,9 +161,9 @@ def reformat(choice):
             if 'blaster' in xeno_file:
                 os.rename(f'{xeno_path}{xeno_file}',
                           f'{xeno_path}blaster ({solo}{xeno_file[xeno_file.index("r") + 1:xeno_file.index(".")]}).wav')
-            elif 'hum' in xeno_file:
+            elif 'humM' in xeno_file:
                 os.rename(f'{xeno_path}{xeno_file}',
-                          f'{xeno_path}hum ({solo}{xeno_file[xeno_file.index("m") + 1:xeno_file.index(".")]}).wav')
+                          f'{xeno_path}hum ({solo}{xeno_file[xeno_file.index("mM") + 2:xeno_file.index(".")]}).wav')
             elif 'lockup' in xeno_file:
                 os.rename(f'{xeno_path}{xeno_file}',
                           f'{xeno_path}lockup ({solo}{xeno_file[xeno_file.index("p") + 1:xeno_file.index(".")]}).wav')
