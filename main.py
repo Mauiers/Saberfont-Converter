@@ -49,8 +49,6 @@ def reformat(choice):
     elif choice == 4:
         is_proffie, is_verso, is_xeno = True, True, True
 
-    print(choice, is_xeno)
-
     if is_proffie:
         # make proffie folder
         proffie_path = path + '/Proffie/'
