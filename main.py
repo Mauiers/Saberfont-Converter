@@ -206,7 +206,7 @@ def reformat(choice):
             elif 'drag' in xeno_file:
                 os.rename(f'{xeno_path}{xeno_file}',
                           f'{xeno_path}drag ({solo}{xeno_file[xeno_file.index("g") + 1:xeno_file.index(".")]}).wav')
-            elif 'font' in xeno_file:
+            elif 'font.wav' in xeno_file:
                 os.rename(f'{xeno_path}{xeno_file}',
                           f'{xeno_path}font ({solo}{xeno_file[xeno_file.index("t") + 1:xeno_file.index(".")]}).wav')
 
