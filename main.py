@@ -152,8 +152,8 @@ def reformat(choice):
             if cfx_file not in os.listdir(xeno_path):
                 shutil.copy(cfx_path + cfx_file, xeno_path)
 
-        max_pwr_on = 1
-        max_pwr_off = 1
+        max_pwr_on = 0
+        max_pwr_off = 0
 
         for xeno_file in os.listdir(xeno_path):
             # skip special file names
@@ -223,10 +223,10 @@ def reformat(choice):
         for xeno_file in os.listdir(xeno_path):
             if 'pwroff2' in xeno_file:
                 os.rename(f'{xeno_path}{xeno_file}',
-                          f'{xeno_path}poweroff ({max_pwr_off+1})')
+                          f'{xeno_path}poweroff ({max_pwr_off+1}).wav')
             if 'poweronf' in xeno_file:
                 os.rename(f'{xeno_path}{xeno_file}',
-                          f'{xeno_path}poweron ({max_pwr_on+1})')
+                          f'{xeno_path}poweron ({max_pwr_on+1}).wav')
 
 
 if __name__ == '__main__':
