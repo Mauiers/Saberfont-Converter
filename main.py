@@ -96,10 +96,10 @@ def reformat(choice):
                             f'{proffie_path}/out/out{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
             if 'preon' in old_cfx_file and old_cfx_file != 'blst':
                 shutil.move(f'{proffie_path}{old_cfx_file}',
-                            f'{proffie_path}/{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
+                            f'{proffie_path}/preon{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
             if 'pstoff' in old_cfx_file and old_cfx_file != 'blst':
                 shutil.move(f'{proffie_path}{old_cfx_file}',
-                            f'{proffie_path}/{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
+                            f'{proffie_path}/pstoff{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
             elif 'stab' in old_cfx_file and old_cfx_file != 'stab':
                 shutil.move(f'{proffie_path}{old_cfx_file}',
                             f'{proffie_path}/stab/stab{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
@@ -112,7 +112,6 @@ def reformat(choice):
             elif 'swing' in old_cfx_file and old_cfx_file != 'swng' and old_cfx_file != 'swingh' and old_cfx_file != 'swingl':
                 shutil.move(f'{proffie_path}{old_cfx_file}',
                             f'{proffie_path}/swng/swng{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
-
 
             # rename boots to match Proffie naming scheme
             elif 'boot' in old_cfx_file:
