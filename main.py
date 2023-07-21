@@ -68,8 +68,18 @@ def reformat(choice):
             if not os.path.isdir(path_subfolder):
                 os.mkdir(path_subfolder)
 
+        max_pwr_on = 0
+        max_pwr_off = 0
+
         # move files to subfolders
         for old_cfx_file in os.listdir(proffie_path):
+            # skip special file names
+
+            if 'pwroff2' in old_cfx_file:
+                continue
+            if 'poweronf' in old_cfx_file:
+                continue
+
             if 'blaster' in old_cfx_file and old_cfx_file != 'blst':
                 shutil.move(f'{proffie_path}{old_cfx_file}',
                             f'{proffie_path}/blst/blst{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
@@ -77,9 +87,11 @@ def reformat(choice):
                 shutil.move(f'{proffie_path}{old_cfx_file}',
                             f'{proffie_path}/clsh/clsh{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
             elif 'poweroff' in old_cfx_file and old_cfx_file != 'in':
+                max_pwr_off += 1
                 shutil.move(f'{proffie_path}{old_cfx_file}',
                             f'{proffie_path}/in/in{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
             elif 'poweron' in old_cfx_file and old_cfx_file != 'out':
+                max_pwr_on += 1
                 shutil.move(f'{proffie_path}{old_cfx_file}',
                             f'{proffie_path}/out/out{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
             elif 'stab' in old_cfx_file and old_cfx_file != 'stab':
@@ -99,6 +111,14 @@ def reformat(choice):
             elif 'boot' in old_cfx_file:
                 os.rename(f'{proffie_path}{old_cfx_file}',
                           f'{proffie_path}boot{str(extract_numbers(old_cfx_file)).zfill(2)}.wav')
+
+        for old_cfx_file in os.listdir(proffie_path):
+            if 'pwroff2' in old_cfx_file:
+                os.rename(f'{proffie_path}{old_cfx_file}',
+                          f'{cfx_path}/in/in{str(max_pwr_off).zfill(2)}.wav')
+            if 'poweronf' in old_cfx_file:
+                os.rename(f'{proffie_path}{old_cfx_file}',
+                          f'{cfx_path}/out/out{str(max_pwr_on).zfill(2)}.wav')
 
     if is_verso:
         # make verso folder
