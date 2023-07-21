@@ -115,10 +115,10 @@ def reformat(choice):
         for old_cfx_file in os.listdir(proffie_path):
             if 'pwroff2' in old_cfx_file:
                 os.rename(f'{proffie_path}{old_cfx_file}',
-                          f'{cfx_path}/in/in{str(max_pwr_off).zfill(2)}.wav')
+                          f'{proffie_path}/in/in{str(max_pwr_off).zfill(2)}.wav')
             if 'poweronf' in old_cfx_file:
                 os.rename(f'{proffie_path}{old_cfx_file}',
-                          f'{cfx_path}/out/out{str(max_pwr_on).zfill(2)}.wav')
+                          f'{proffie_path}/out/out{str(max_pwr_on).zfill(2)}.wav')
 
     if is_verso:
         # make verso folder
