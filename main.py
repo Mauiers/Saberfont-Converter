@@ -152,10 +152,17 @@ def reformat(choice):
             if cfx_file not in os.listdir(xeno_path):
                 shutil.copy(cfx_path + cfx_file, xeno_path)
 
-        max_power_on = 0
-        max_pwr_off = 0
+        max_pwr_on = 1
+        max_pwr_off = 1
 
         for xeno_file in os.listdir(xeno_path):
+            # skip special file names
+
+            if 'pwroff2' in xeno_file:
+                continue
+            if 'poweronf' in xeno_file:
+                continue
+
             solo = '' if can_convert_to_int(xeno_file[xeno_file.index(".") - 1:xeno_file.index(".")]) else '1'
 
             if 'blaster' in xeno_file:
@@ -183,9 +190,11 @@ def reformat(choice):
                 os.rename(f'{xeno_path}{xeno_file}',
                           f'{xeno_path}lock ({solo}{xeno_file[xeno_file.index("p") + 1:xeno_file.index(".")]}).wav')
             elif 'poweron' in xeno_file:
+                max_pwr_on += 1
                 os.rename(f'{xeno_path}{xeno_file}',
                           f'{xeno_path}out ({solo}{xeno_file[xeno_file.index("n") + 1:xeno_file.index(".")]}).wav')
             elif 'poweroff' in xeno_file:
+                max_pwr_off += 1
                 os.rename(f'{xeno_path}{xeno_file}',
                           f'{xeno_path}in ({solo}{xeno_file[xeno_file.index("ff") + 2:xeno_file.index(".")]}).wav')
             elif 'preon' in xeno_file:
@@ -207,10 +216,17 @@ def reformat(choice):
                 os.rename(f'{xeno_path}{xeno_file}',
                           f'{xeno_path}font ({solo}{xeno_file[xeno_file.index("t") + 1:xeno_file.index(".")]}).wav')
 
-
             # drop boots
             elif 'boot' in xeno_file:
                 os.remove(f'{xeno_path}{xeno_file}')
+
+        for xeno_file in os.listdir(xeno_path):
+            if 'pwroff2' in xeno_file:
+                os.rename(f'{xeno_path}{xeno_file}',
+                          f'{xeno_path}poweroff ({max_pwr_off+1})')
+            if 'poweronf' in xeno_file:
+                os.rename(f'{xeno_path}{xeno_file}',
+                          f'{xeno_path}poweron ({max_pwr_on+1})')
 
 
 if __name__ == '__main__':
