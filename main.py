@@ -164,9 +164,6 @@ def reformat(choice):
             elif 'humM' in xeno_file:
                 os.rename(f'{xeno_path}{xeno_file}',
                           f'{xeno_path}hum ({solo}{xeno_file[xeno_file.index("mM") + 2:xeno_file.index(".")]}).wav')
-            elif 'lockup' in xeno_file:
-                os.rename(f'{xeno_path}{xeno_file}',
-                          f'{xeno_path}lockup ({solo}{xeno_file[xeno_file.index("p") + 1:xeno_file.index(".")]}).wav')
             elif 'hswing' in xeno_file:
                 os.rename(f'{xeno_path}{xeno_file}',
                           f'{xeno_path}swingh ({solo}{xeno_file[xeno_file.index("g") + 1:xeno_file.index(".")]}).wav')
